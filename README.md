@@ -12,11 +12,13 @@ Blind image deblurring is the process of deriving a sharp image and a blur kerne
 2. run python3 demo_deblurring.py image_name.extension kernel_size
 
 ## Consider Citing Us
-@InProceedings{Al_Radi_2025_WACV,
-    author    = {Al Radi, Abdul Mohaimen and Majumder, Prothito Shovon and Khan, Md. Mosaddek},
-    title     = {Blind Image Deblurring with FFT-ReLU Sparsity Prior},
-    booktitle = {Proceedings of the Winter Conference on Applications of Computer Vision (WACV)},
-    month     = {February},
-    year      = {2025},
-    pages     = {3447-3456}
-}
+@INPROCEEDINGS{10943750,
+  author={Al Radi, Abdul Mohaimen and Majumder, Prothito Shovon and Khan, Md. Mosaddek},
+  booktitle={2025 IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)}, 
+  title={Blind Image Deblurring with FFT-ReLU Sparsity Prior}, 
+  year={2025},
+  volume={},
+  number={},
+  pages={3447-3456},
+  keywords={Degradation;Computer vision;Source coding;Inference algorithms;Kernel;Software development management;image restoration;deblurring;fft},
+  doi={10.1109/WACV61041.2025.00340}}
