@@ -166,6 +166,7 @@ def main():
         '/home/sixuan-wu/research/MicroClear/data_splits/test_rbc.txt'
     ]
     for file in test_filenames:
+        print(f'Processing file: {file}')
         with open(file, 'r') as f:
             image_paths = f.readlines()
         # random subsample 100 images
@@ -173,7 +174,13 @@ def main():
         image_paths = random.sample(image_paths, 100)
         for path in tqdm(image_paths):
             blurry_image_path = path.strip().split('\t')[0]
-            process(blurry_image_path, blurry_image_path.split('/')[-1])
+            if blurry_image_path.split('/')[-1] in os.listdir('microscope_results'):
+                continue
+            try:
+                process(blurry_image_path, blurry_image_path.split('/')[-1])
+            except:
+                print(f'Error processing {blurry_image_path}')
+                continue
 
 if __name__ == "__main__":
     main()

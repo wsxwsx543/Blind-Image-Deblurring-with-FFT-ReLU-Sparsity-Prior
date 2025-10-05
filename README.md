@@ -11,6 +11,11 @@ Blind image deblurring is the process of deriving a sharp image and a blur kerne
 1. Keep images in the images folder
 2. run python3 demo_deblurring.py image_name.extension kernel_size
 
+
+# Run on Microscope dataset
+In this modified to evaluate microscope dataset, just run python demo_deblurring.py
+
+
 ## Consider Citing Us
 @INPROCEEDINGS{10943750,
   author={Al Radi, Abdul Mohaimen and Majumder, Prothito Shovon and Khan, Md. Mosaddek},
