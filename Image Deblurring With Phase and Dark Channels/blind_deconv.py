@@ -15,7 +15,7 @@ def blind_deconv(y, lambda_ftr,lambda_dark, lambda_grad, opts):
     ret = math.sqrt(0.5)
     maxitr = max(math.floor(math.log(5 / opts['kernel_size']) / math.log(ret)), 0)
     num_scales = maxitr + 1
-    print(f"Maximum iteration level is {num_scales}")
+    # print(f"Maximum iteration level is {num_scales}")
 
     retv = ret ** torch.arange(maxitr + 1)
     k1list = torch.ceil(opts['kernel_size'] * retv).to(torch.int)  
@@ -50,7 +50,7 @@ def blind_deconv(y, lambda_ftr,lambda_dark, lambda_grad, opts):
         ys = downsample_image(y, cret)
         # print(ys[0:10,0:10])
         # ys = ys.permute(1,2,0)
-        print(f"Processing scale {s}/{num_scales}; kernel size {k1}x{k2}; image size {ys.shape[0]}x{ys.shape[1]}")
+        # print(f"Processing scale {s}/{num_scales}; kernel size {k1}x{k2}; image size {ys.shape[0]}x{ys.shape[1]}")
         
         if s == num_scales:
             _, _, threshold = threshold_pxpy_v1(ys, torch.tensor(max(k1, k2)) )

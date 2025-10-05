@@ -83,7 +83,7 @@ def blind_deconv_main(blur_B, k, lambda_ftr, lambda_dark, lambda_grad, threshold
         # Prune isolated noise in the kernel
         # print('printing kernel after L0Restoration and estimate PSF')
         # print(k)
-        print('pruning isolated noise in kernel...')
+        # print('pruning isolated noise in kernel...')
         # print(k)
         CC = connected_components(k)
         for ii in range(1, CC['NumObjects'] + 1):

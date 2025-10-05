@@ -301,8 +301,8 @@ def findM(I):
         # print(step)
         a[0,step] = loss.item()
         # print(loss.item())
-        if step % 99 == 0:
-            print(f"Step [{step+1}/{num_steps}], Loss: {loss.item()}")
+        # if step % 99 == 0:
+        #     print(f"Step [{step+1}/{num_steps}], Loss: {loss.item()}")
 
     # Return the result without gradients
     with torch.no_grad():

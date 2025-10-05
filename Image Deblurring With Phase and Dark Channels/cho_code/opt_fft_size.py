@@ -7,7 +7,7 @@ def opt_fft_size(n):
     
     global opt_fft_size_LUT
     if(opt_fft_size_LUT is None):
-        print('generating optimal fft size Look up table')
+        # print('generating optimal fft size Look up table')
         opt_fft_size_LUT = [0] * LUT_size
         e2 = 1
         while e2 < LUT_size:

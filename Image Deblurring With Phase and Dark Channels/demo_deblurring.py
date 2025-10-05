@@ -9,24 +9,13 @@ from ringing_artifacts_removal import ringing_artifacts_removal
 from misc import visualize_rgb ,visualize_image, gray_image, process_image,PSNR
 from metrics import psnr
 import time
+import random
 import sys
+from tqdm import tqdm
 
 
-def main():
-    
-        # if(i!=15):
-        #     continue
-        # plt.figure(figsize=(5, 5))
-        # Specify your input image file path
-        # image_path = 'images/blurry1_8.png'
-    args = sys.argv[1:]
-    path = args[0]
-    image_path = f'images/{path}'
-    # print(sys.argv[1,1])
-    if(len(args) > 1):
-        kernel_size = int(args[1])
-    else:
-        kernel_size = 29
+def process(image_path, filename):    
+    kernel_size = 29
     opts = {
         'prescale': 1,   # Downsampling
         'xk_iter': 5,    # Iterations
@@ -75,7 +64,7 @@ def main():
     # weight_ring = 1
     # print()
     # Create the results directory if it doesn't exist
-    results_dir = 'results'
+    results_dir = 'microscope_results'
     os.makedirs(results_dir, exist_ok=True)
 
     # Load the image
@@ -97,7 +86,7 @@ def main():
     start_time = time.time()
     kernel, interim_latent = blind_deconv(yg, lambda_ftr,lambda_dark, lambda_grad, opts)
     end_time = time.time()
-    print(f"Time taken: {end_time-start_time} seconds")
+    # print(f"Time taken: {end_time-start_time} seconds")
     # plt.figure(figsize=(5, 5))
     # plt.imshow(kernel, cmap='gray')
     # plt.title('Estimated Kernel')
@@ -124,16 +113,16 @@ def main():
     #save the Latent matrix as a JPG image in the results folder
     Latent[Latent>1.0] = 1.0
     Latent[Latent<0.0] = 0.0
-    if Latent.shape[2] == 1:
-        visualize_image(Latent)
-    else:
-        visualize_rgb(Latent)
+    # if Latent.shape[2] == 1:
+    #     visualize_image(Latent)
+    # else:
+    #     visualize_rgb(Latent)
     Latent = Latent.squeeze()
     Latent = Latent*255.0
     Latent = Latent.numpy()
     Latent = Latent.astype('uint8')
     Latent = Image.fromarray(Latent)
-    Latent.save(os.path.join(results_dir, f'{path[0:-4]}.png'))
+    Latent.save(os.path.join(results_dir, f'{filename[0:-4]}.png'))
 
     kmn = kernel.min()
     kmx = kernel.max()
@@ -142,7 +131,7 @@ def main():
     kernel = kernel.numpy()
     kernel = kernel.astype('uint8')
     kernel = Image.fromarray(kernel)
-    kernel.save(os.path.join(results_dir, f'{path[0:-4]}_kernel.png'))    
+    kernel.save(os.path.join(results_dir, f'{filename[0:-4]}_kernel.png'))    
     # Lmx = Latent.max()
     # Lmn = Latent.min()
     # Latent = (Latent - Lmn)/(Lmx - Lmn)
@@ -167,6 +156,24 @@ def main():
     # kernel_image.save(os.path.join(results_dir, 'kernel.png'))
     # latent_image.save(os.path.join(results_dir, 'result.png'))
     # interim_image.save(os.path.join(results_dir, 'interim_result.png'))
+
+def main():
+    test_filenames = [
+        '/home/sixuan-wu/research/MicroClear/data_splits/test_bbbc006_w1.txt',
+        '/home/sixuan-wu/research/MicroClear/data_splits/test_bbbc006_w2.txt',
+        '/home/sixuan-wu/research/MicroClear/data_splits/test_focus.txt',
+        '/home/sixuan-wu/research/MicroClear/data_splits/test_hist.txt',
+        '/home/sixuan-wu/research/MicroClear/data_splits/test_rbc.txt'
+    ]
+    for file in test_filenames:
+        with open(file, 'r') as f:
+            image_paths = f.readlines()
+        # random subsample 100 images
+        random.seed(42)
+        image_paths = random.sample(image_paths, 100)
+        for path in tqdm(image_paths):
+            blurry_image_path = path.strip().split('\t')[0]
+            process(blurry_image_path, blurry_image_path.split('/')[-1])
 
 if __name__ == "__main__":
     main()
